@@ -1,46 +1,55 @@
-//import logo from './logo.svg';
-import './App.css';
-import Dashboard from './dashboard/dashboard';
-import Sidebar from './sidebar';
-import Topbar from './topbar';
-import { UserProvider } from "./userContext";
 
+import './App.css';
+import Sidebar from './Sidebar'
+import Topbar from './Topbar'
+import Dashboard from './Dashboard/Dashboard'
 import {
-  BrowserRouter as Router,
+    BrowserRouter as Router,
+    Switch,
   Route,
-  Switch
- } from "react-router-dom"
-import UserList from './userlist';
-import UserEdit from './useredit';
-import UserCreate from './usercreate';
+Link} from "react-router-dom"
+import { UserProvider } from './UserContext'
+import Userlist from './Userlist';
+import UserCreate from './UserCreate';
+import UserEdit from './UserEdit';
+import Productlist from './Productlist';
+import Productcreate from './Productcreate';
+import Productedit from './Productedit';
+import { ProductProvider } from './ProductContext';
 
 
 function App() {
-  return (
-    <Router>
-    <div id="wrapper">
-    <Sidebar></Sidebar>
-    <UserProvider>
-    <div id="content-wrapper" class="d-flex flex-column">
-    <div id="content">
-      <Topbar></Topbar>
-      <div class="container-fluid">
-        
-          <Switch>
-            <Route path="/dashboard" component={Dashboard} exact={true} />
-            <Route path="/users" component={UserList} exact={true} />
-            <Route path="/products" component={UserList} exact={true} />
-            <Route path="/usercreate" component={UserCreate} exact={true} />
-            <Route path="/useredit/:id" component={UserEdit} exact={true} />
-          </Switch>
-        
-      </div>
-    </div>
-    </div>
-    </UserProvider>
-    </div>
-    </Router>
-  );
+
+  return <Router>
+        <div id="wrapper">
+        <UserProvider>
+             <ProductProvider>
+           <Sidebar></Sidebar>
+          
+           <div id="content-wrapper" class="d-flex flex-column">
+            <div id="content">
+              <Topbar></Topbar>
+              <div className="container-fluid">
+                <Switch>
+                  <Route path = "/Dashboard" component = {Dashboard} exact = {true}/>
+                  <Route path = "/Users" component = {Userlist} exact = {true}/>
+                  <Route path = "/UserCreate" component = {UserCreate} exact = {true}/>
+                  <Route path = "/Products" component = {Productlist} exact = {true}/>
+                  <Route path = "/Productcreate" component = {Productcreate} exact = {true}/>
+                  <Route path = "/UserEdit/:id" component = {UserEdit} exact = {true}/>
+                  <Route path = "/Productedit/:id" component = {Productedit} exact = {true}/>
+                </Switch>
+            
+              </div>
+            </div>
+          </div>
+          </ProductProvider>
+          </UserProvider>
+        </div>
+  </Router>
+          
+    
+
 }
 
 export default App;

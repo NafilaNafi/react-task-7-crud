@@ -1,7 +1,9 @@
-import { useContext, useState } from "react"
+import { useContext, useEffect, useState } from "react"
 import UserContext from "./userContext";
+import { Formik } from 'formik';
 
-export default function UserCreate(){
+export default function UserCreate() {
+
 
     let userData = useContext(UserContext)
 
@@ -10,17 +12,53 @@ export default function UserCreate(){
     let [email,setemail] =useState("");
     let [password,setpassword] =useState("");
 
-    let userSubmit = (e) => {
+    let userSubmit = async (e) => {
         e.preventDefault()
         
 
-        userData.setUserList([...userData.userList,{
+        userData.setUserList([...userData.userList, {
             firstName,
             lastName,
             email,
             password
         }])
+
+        await fetch("https://5cdd0a92b22718001417c19d.mockapi.io/api/users",{
+            method : "POST",
+            body : JSON.stringify({
+                firstName,
+                lastName,
+                email,
+                password
+            }),
+            headers : {
+                "Content-type" : "application/json"
+            }
+        })
     }
+
+    // Component Lifecycle Hook
+
+    //Creating
+    useEffect(() => {
+        console.log("During Creation")
+    },[])
+
+    useEffect(() => {
+        return () => {
+            console.log("During Destroy")
+        }
+    },[])
+
+    useEffect(() => {
+        console.log("During the Props change")
+    },[firstName])
+
+    //Updating
+
+    //Destroy
+
+    
 
     return <>
         <div className="container">
@@ -29,6 +67,17 @@ export default function UserCreate(){
                 <h3>USER FORM</h3>
             </div>
         </div>
+
+    <Formik>
+        <Form>
+            <Field className="form-control" name="firstname"/>
+            <Field name="lastname"/>
+            <Field name="email"/>
+            <Field name="password"/>
+        </Form>
+    </Formik>
+
+
         <form onSubmit={userSubmit}>
         <div className="row">
             <div className="col-lg-6">
